@@ -14,11 +14,23 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Security middleware
-app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  credentials: true
+app.use(helmet({
+  crossOriginResourcePolicy: false
 }));
+
+// CORS - allow all origins (handles any misconfigured env vars)
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow all origins
+    callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Rate limiting
 const limiter = rateLimit({
@@ -49,6 +61,11 @@ app.use('/api/schedule', scheduleRouter);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString(), version: '1.0.0' });
+});
+
+// Root
+app.get('/', (req, res) => {
+  res.json({ message: 'SocialPilot API', status: 'running' });
 });
 
 // Error handler
