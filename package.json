@@ -1,0 +1,15 @@
+{
+  "name": "socialpilot",
+  "version": "1.0.0",
+  "description": "AI-powered social media content pipeline",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "setup": "npm run install:all && echo '✅ Setup complete! Copy .env.example files and add your GEMINI_API_KEY'"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
