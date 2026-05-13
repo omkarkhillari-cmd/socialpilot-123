@@ -82,7 +82,7 @@ Return ONLY the content, no meta-commentary or explanations. Make it ready to pu
 // Generate text content
 export const generateTextContent = async (params) => {
   const client = getClient();
-  const model = client.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const model = client.getGenerativeModel({ model: 'gemini-2.0-flash-exp-image-generation' });
   
   const prompt = buildContentPrompt(params);
   
